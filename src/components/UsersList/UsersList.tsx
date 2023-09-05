@@ -1,33 +1,13 @@
 import React, { useState, useEffect } from "react";
-
-const SERVICE_URL = "https://randomuser.me/api?results=40";
-
-type UserData = {
-  name: {
-    title: string;
-    first: string;
-    last: string;
-  };
-  location: {
-    city: string;
-    state: string;
-    country: string;
-  };
-  picture: {
-    thumbnail: string;
-  };
-};
+import IUserData from "../../types/UserData";
+import UserService from "../../services/UserService";
 
 const UsersList = () => {
-  const [users, setUsers] = useState<Array<UserData>>([]);
+  const [users, setUsers] = useState<Array<IUserData>>([]);
+  const UserSvc = new UserService();
 
   useEffect(() => {
-    const fetchUsers = async () => {
-      const response = await fetch(SERVICE_URL);
-      return response.json();
-    };
-
-    fetchUsers().then(({ results }) => setUsers(results));
+    UserSvc.fetchUsers().then(({ results }) => setUsers(results));
   }, []);
 
   return (
