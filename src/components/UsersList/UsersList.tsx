@@ -17,6 +17,10 @@ const UsersList = () => {
     }
   };
 
+  const deleteUser = (id: number) => {
+    setUsers([...users.slice(0, id), ...users.slice(id + 1)]);
+  };
+
   useEffect(() => {
     UserSvc.fetchUsers().then(({ results }) => setUsers(results));
   }, []);
@@ -30,7 +34,9 @@ const UsersList = () => {
             <span>{`${user.name.title} ${user.name.first} ${user.name.last}`}</span>
             <span>{`${user.location.city}, ${user.location.state}, ${user.location.country}`}</span>
           </li>
-          {toggle === i && <UserCard user={user} />}
+          {toggle === i && (
+            <UserCard user={user} deleteHandle={() => deleteUser(i)} />
+          )}
         </div>
       ))}
     </ul>
