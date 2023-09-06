@@ -1,10 +1,21 @@
-import React, { useState, useEffect } from "react";
-import IUserData from "../../types/UserData";
-import UserService from "../../services/UserService";
+import React, { useState, useEffect } from 'react';
+import IUserData from '../../types/UserData';
+import UserService from '../../services/UserService';
+import UserCard from '../UserCard';
 
 const UsersList = () => {
   const [users, setUsers] = useState<Array<IUserData>>([]);
+  const [toggle, setToggle] = useState<number | null>(null);
+
   const UserSvc = new UserService();
+
+  const toggleCard = (i: number) => {
+    if (!toggle || toggle != i) {
+      setToggle(i);
+    } else {
+      setToggle(null);
+    }
+  };
 
   useEffect(() => {
     UserSvc.fetchUsers().then(({ results }) => setUsers(results));
@@ -12,12 +23,15 @@ const UsersList = () => {
 
   return (
     <ul>
-      {users.map(({ name, location, picture }, i) => (
-        <li key={i}>
-          <img src={picture.thumbnail} />
-          <span>{`${name.title} ${name.first} ${name.last}`}</span>
-          <span>{`${location.city}, ${location.state}, ${location.country}`}</span>
-        </li>
+      {users.map((user, i) => (
+        <div key={i}>
+          <li onClick={() => toggleCard(i)}>
+            <img src={user.picture.thumbnail} />
+            <span>{`${user.name.title} ${user.name.first} ${user.name.last}`}</span>
+            <span>{`${user.location.city}, ${user.location.state}, ${user.location.country}`}</span>
+          </li>
+          {toggle === i && <UserCard user={user} />}
+        </div>
       ))}
     </ul>
   );

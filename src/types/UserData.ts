@@ -4,6 +4,8 @@ interface IUserData {
     first: string;
     last: string;
   };
+  email: string;
+  phone: string;
   location: {
     city: string;
     state: string;
@@ -11,6 +13,7 @@ interface IUserData {
   };
   picture: {
     thumbnail: string;
+    medium: string;
   };
 }
 
