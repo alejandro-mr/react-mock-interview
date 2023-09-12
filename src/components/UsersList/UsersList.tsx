@@ -10,7 +10,7 @@ const UsersList = () => {
   const UserSvc = new UserService();
 
   const toggleCard = (i: number) => {
-    if (!toggle || toggle != i) {
+    if ((toggle && toggle < 0) || toggle != i) {
       setToggle(i);
     } else {
       setToggle(null);
@@ -26,13 +26,18 @@ const UsersList = () => {
   }, []);
 
   return (
-    <ul>
+    <ul className="grid gri-cols-1">
       {users.map((user, i) => (
         <div key={i}>
-          <li onClick={() => toggleCard(i)}>
+          <li
+            onClick={() => toggleCard(i)}
+            className="border-b border-dotted border-slate-400 p-2 grid grid-cols-10 gap-1 bg-slate-200"
+          >
             <img src={user.picture.thumbnail} />
-            <span>{`${user.name.title} ${user.name.first} ${user.name.last}`}</span>
-            <span>{`${user.location.city}, ${user.location.state}, ${user.location.country}`}</span>
+            <div className="col-span-9 grid">
+              <span>{`${user.name.title} ${user.name.first} ${user.name.last}`}</span>
+              <span>{`${user.location.city}, ${user.location.state}, ${user.location.country}`}</span>
+            </div>
           </li>
           {toggle === i && (
             <UserCard user={user} deleteHandle={() => deleteUser(i)} />

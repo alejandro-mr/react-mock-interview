@@ -1,12 +1,12 @@
-import React from "react";
-import "./App.css";
+import React from 'react';
+import './App.css';
 
-import UsersList from "./components/UsersList";
+import UsersList from './components/UsersList';
 
 function App() {
   return (
-    <div>
-      <h1>User's list</h1>
+    <div className="container mx-auto">
+      <h1 className="font-bold text-lg text-center">User's list</h1>
       <UsersList />
     </div>
   );
